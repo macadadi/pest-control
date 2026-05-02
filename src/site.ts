@@ -14,8 +14,7 @@ export const siteUrl =
 
 /** Display, E.164 `tel:`, and digits for `wa.me` (no +), one entry per line. */
 export const businessPhones = [
-  { display: '0710770278', tel: '+254710770278', whatsappDigits: '254710770278' },
-  { display: '0726 039562', tel: '+254726039562', whatsappDigits: '254726039562' }
+  { display: '0710770278', whatsappDigits: '254710770278' }
 ] as const;
 
 export const business = {

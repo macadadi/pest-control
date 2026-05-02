@@ -9,11 +9,15 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "deploy": "vercel deploy"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
     "@fontsource/dm-sans": "^5.2.8",
     "astro": "^6.2.1"
+  },
+  "devDependencies": {
+    "vercel": "^53.1.0"
   }
 }

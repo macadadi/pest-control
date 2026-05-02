@@ -77,7 +77,12 @@ const teaser = (s: string, n: number) =>
             <li>Nationwide mobilisation from a Nairobi operations base</li>
           </ul>
           <div class="hero-trust" role="note">
-            <a href={`tel:${business.phoneTel}`}>Call {business.phoneDisplay}</a>
+            {business.phones.map((p, i) => (
+              <>
+                {i > 0 ? <span class="hero-trust-sep" aria-hidden="true">·</span> : null}
+                <a href={`tel:${p.tel}`}>Call {p.display}</a>
+              </>
+            ))}
             <span class="hero-trust-sep" aria-hidden="true">·</span>
             <span>{business.openingHours}</span>
             <span class="hero-trust-sep" aria-hidden="true">·</span>
