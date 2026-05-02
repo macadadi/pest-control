@@ -12,10 +12,10 @@ export const siteUrl =
       ? String(import.meta.env.SITE).replace(/\/$/, '')
       : 'https://example.com';
 
-/** Display and E.164 `tel:` for each line; first is primary (WhatsApp, main CTA). */
+/** Display, E.164 `tel:`, and digits for `wa.me` (no +), one entry per line. */
 export const businessPhones = [
-  { display: '0710770278', tel: '+254710770278' },
-  { display: '0726 039562', tel: '+254726039562' }
+  { display: '0710770278', tel: '+254710770278', whatsappDigits: '254710770278' },
+  { display: '0726 039562', tel: '+254726039562', whatsappDigits: '254726039562' }
 ] as const;
 
 export const business = {
@@ -24,7 +24,6 @@ export const business = {
   phoneDisplay: businessPhones[0].display,
   phoneTel: businessPhones[0].tel,
   email: 'info@kenyapestcontrol.co.ke',
-  whatsappDigits: '254710770278',
   address: {
     /** Shown on Contact; keep aligned with Google Business Profile. */
     label: 'Registered office',

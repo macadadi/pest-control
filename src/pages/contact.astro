@@ -6,7 +6,6 @@ import { breadcrumbsJsonLd } from '../lib/seo';
 import { business, siteName, siteUrl } from '../site';
 
 const origin = Astro.site?.origin ?? siteUrl.replace(/\/$/, '');
-const wa = `https://wa.me/${business.whatsappDigits}`;
 const crumbs = breadcrumbsJsonLd(origin, [
   { name: 'Home', path: '/' },
   { name: 'Contact', path: '/contact/' }
@@ -76,8 +75,13 @@ const mapsHref = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
         <dd><a href={`mailto:${business.email}`}>{business.email}</a></dd>
         <dt>WhatsApp</dt>
         <dd>
-          <a href={wa}>WhatsApp {business.phoneDisplay}</a>
-          {'. Same number as phone; fastest for photos and short video.'}
+          {business.phones.map((p, i) => (
+            <>
+              {i > 0 ? ' · ' : ''}
+              <a href={`https://wa.me/${p.whatsappDigits}`}>WhatsApp {p.display}</a>
+            </>
+          ))}
+          {'. Either line; fastest for photos and short video.'}
         </dd>
         <dt>{business.address.label}</dt>
         <dd>

@@ -1,9 +1,9 @@
 ---
 import { business } from '../site';
 
-const wa = `https://wa.me/${business.whatsappDigits}?text=${encodeURIComponent(
+const waPrefill = encodeURIComponent(
   'Hello, I would like a pest control quote in Kenya. Property type and location: '
-)}`;
+);
 ---
 
 <div class="cta-strip">
@@ -20,6 +20,13 @@ const wa = `https://wa.me/${business.whatsappDigits}?text=${encodeURIComponent(
         Call {p.display}
       </a>
     ))}
-    <a class="btn btn-ghost" href={wa}>WhatsApp</a>
+    {business.phones.map((p) => (
+      <a
+        class="btn btn-ghost"
+        href={`https://wa.me/${p.whatsappDigits}?text=${waPrefill}`}
+      >
+        WhatsApp {p.display}
+      </a>
+    ))}
   </div>
 </div>

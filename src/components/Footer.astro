@@ -1,8 +1,6 @@
 ---
 import { business, siteName } from '../site';
 import PhotoCredit from './PhotoCredit.astro';
-
-const wa = `https://wa.me/${business.whatsappDigits}`;
 ---
 
 <footer class="site-footer">
@@ -30,7 +28,12 @@ const wa = `https://wa.me/${business.whatsappDigits}`;
         Email:{' '}
         <a href={`mailto:${business.email}`}>{business.email}</a><br />
         WhatsApp:{' '}
-        <a href={wa}>Message us</a>
+        {business.phones.map((p, i) => (
+          <>
+            {i > 0 ? ' · ' : ''}
+            <a href={`https://wa.me/${p.whatsappDigits}`}>Message {p.display}</a>
+          </>
+        ))}
       </p>
     </div>
     <div>
