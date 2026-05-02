@@ -1,0 +1,195 @@
+---
+import { siteName } from '../site';
+
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const navItems = [
+  { href: '/', label: 'Home', active: pathname === '/' },
+  {
+    href: '/pests',
+    label: 'Pests',
+    active: pathname === '/pests' || pathname.startsWith('/pests/')
+  },
+  {
+    href: '/services',
+    label: 'Services',
+    active: pathname === '/services' || pathname.startsWith('/services/')
+  },
+  {
+    href: '/locations',
+    label: 'Locations',
+    active: pathname === '/locations' || pathname.startsWith('/locations/')
+  },
+  {
+    href: '/blog',
+    label: 'Guides',
+    active: pathname === '/blog' || pathname.startsWith('/blog/')
+  },
+  {
+    href: '/faq',
+    label: 'FAQ',
+    active: pathname === '/faq' || pathname.startsWith('/faq/')
+  },
+  {
+    href: '/contact',
+    label: 'Contact',
+    active: pathname === '/contact' || pathname.startsWith('/contact/')
+  }
+] as const;
+---
+
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container inner">
+    <a class="brand" href="/" aria-label={`${siteName} home`}
+      ><span>Kenya</span> Pest Control</a
+    >
+    <nav class="nav-main--desktop" aria-label="Primary">
+      {
+        navItems.map((item) => (
+          <a href={item.href} class:list={item.active && 'nav-active'}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <details class="nav-main--mobile">
+      <summary class="nav-mobile-summary">
+        <span class="nav-mobile-hamburger" aria-hidden="true"></span>
+        <span class="nav-mobile-label">Menu</span>
+      </summary>
+      <div class="nav-mobile-panel">
+        <nav aria-label="Primary mobile">
+          {
+            navItems.map((item) => (
+              <a href={item.href} class:list={item.active && 'nav-active'}>
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+    </details>
+  </div>
+</header>
+
+<style>
+  .nav-active {
+    color: var(--accent-dark) !important;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+  }
+
+  .nav-main--mobile {
+    display: none;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  .nav-mobile-summary {
+    list-style: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 8px;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.92rem;
+    user-select: none;
+  }
+
+  .nav-mobile-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .nav-mobile-summary:hover {
+    background: rgb(45 106 79 / 0.08);
+  }
+
+  .nav-mobile-summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .nav-mobile-hamburger {
+    display: block;
+    width: 1.25rem;
+    height: 2px;
+    background: var(--accent-dark);
+    box-shadow:
+      0 -6px 0 var(--accent-dark),
+      0 6px 0 var(--accent-dark);
+    position: relative;
+    top: 0;
+  }
+
+  .nav-mobile-panel {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.35rem);
+    min-width: min(16rem, calc(100vw - 2rem));
+    padding: 0.75rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 12px 40px rgb(26 31 22 / 0.12);
+    z-index: 60;
+  }
+
+  .nav-mobile-panel nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .nav-mobile-panel a {
+    display: block;
+    padding: 0.65rem 0.75rem;
+    border-radius: 8px;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+
+  .nav-mobile-panel a:hover {
+    background: var(--accent-soft);
+    color: var(--accent-dark);
+  }
+
+  @media (max-width: 900px) {
+    .nav-main--desktop {
+      display: none !important;
+    }
+
+    .nav-main--mobile {
+      display: block;
+    }
+  }
+</style>
+
+<script>
+  const details = document.querySelector<HTMLDetailsElement>('.nav-main--mobile');
+  if (details) {
+    details.addEventListener('toggle', () => {
+      const label = details.querySelector('.nav-mobile-label');
+      if (label)
+        label.textContent = details.open ? 'Close' : 'Menu';
+    });
+    document.addEventListener('click', (e) => {
+      if (!details.open) return;
+      const t = e.target as Node;
+      if (!details.contains(t)) details.open = false;
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') details.open = false;
+    });
+  }
+</script>

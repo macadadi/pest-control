@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { breadcrumbsJsonLd } from '../../lib/seo';
+import { siteUrl } from '../../site';
+import { getCollection } from 'astro:content';
+
+const origin = Astro.site?.origin ?? siteUrl.replace(/\/$/, '');
+const all = await getCollection('blog');
+const posts = all.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const crumbs = breadcrumbsJsonLd(origin, [
+  { name: 'Home', path: '/' },
+  { name: 'Guides', path: '/blog/' }
+]);
+
+const formatter = new Intl.DateTimeFormat('en-KE', {
+  dateStyle: 'medium'
+});
+
+const teaser = (s: string, n: number) =>
+  s.length <= n ? s : s.slice(0, n).trimEnd().replace(/\s+\S*$/, '') + '…';
+---
+
+<BaseLayout
+  title="Pest control guides & articles | Kenya Pest Control"
+  description="Practical pest control articles for Kenya, termites, cockroaches in the wet season, export fumigation readiness, and more."
+  path="/blog/"
+  jsonLd={[crumbs]}
+>
+  <section class="section">
+    <div class="container">
+      <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'Guides', path: '/blog/' }]} />
+      <h1>Guides and articles</h1>
+      <p class="dek">
+        Short, practical pieces from real Kenyan sites. Each article is dated so you can see when it was published;
+        pest advice evolves with seasons and regulations, ask us if you need an up-to-date plan for your property.
+      </p>
+      <div class="cards">
+        {
+          posts.map((post) => (
+            <article class:list={['card', post.data.coverImage && 'card--media']}>
+              {post.data.coverImage && post.data.coverAlt && (
+                <div class="card-thumb">
+                  <a href={`/blog/${post.id}/`}>
+                    <img
+                      src={post.data.coverImage}
+                      alt={post.data.coverAlt}
+                      width="400"
+                      height="250"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                </div>
+              )}
+              <div class="card-body">
+                <p class="meta-muted">{formatter.format(post.data.date)}</p>
+                <h3>{post.data.title}</h3>
+                <p class="meta-muted">{teaser(post.data.description, 120)}</p>
+                <a class="card-link" href={`/blog/${post.id}/`}
+                  >Read article</a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

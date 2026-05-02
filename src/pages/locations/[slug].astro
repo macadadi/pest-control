@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CoverImage from '../../components/CoverImage.astro';
+import CtaStrip from '../../components/CtaStrip.astro';
+import { breadcrumbsJsonLd } from '../../lib/seo';
+import { siteUrl } from '../../site';
+import { getCollection, getEntry, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const cities = await getCollection('cities');
+  return cities.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry }
+  }));
+}
+
+const origin = Astro.site?.origin ?? siteUrl.replace(/\/$/, '');
+const { entry } = Astro.props;
+
+const crumbs = breadcrumbsJsonLd(origin, [
+  { name: 'Home', path: '/' },
+  { name: 'Locations', path: '/locations/' },
+  { name: entry.data.title, path: `/locations/${entry.id}/` }
+]);
+
+const spotlight = entry.data.spotlightPests ?? [];
+const spotlightLinks = [];
+for (const slug of spotlight) {
+  const e = await getEntry('pests', slug).catch(() => undefined);
+  if (e?.data) spotlightLinks.push({ slug, title: e.data.title });
+}
+
+const jsonLdList = [
+  crumbs,
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: `Pest Control ${entry.data.title}`,
+    description: entry.data.description,
+    url: `${origin}/locations/${entry.id}/`
+  }
+];
+
+const { Content } = await render(entry);
+const heading =
+  entry.data.h1 ?? `Calls we answer most weeks in ${entry.data.title}`;
+---
+
+<BaseLayout
+  title={`${entry.data.title} Pest Control Kenya | Kenya Pest Control`}
+  description={entry.data.description}
+  path={`/locations/${entry.id}/`}
+  jsonLd={jsonLdList}
+  ogImage={entry.data.coverImage}
+>
+  <article class="section">
+    <div class="container prose">
+      <Breadcrumbs
+        items={[
+          { name: 'Home', path: '/' },
+          { name: 'Locations', path: '/locations/' },
+          { name: entry.data.title, path: `/locations/${entry.id}/` }
+        ]}
+      />
+      <h1>{heading}</h1>
+      {entry.data.dek && <p class="dek">{entry.data.dek}</p>}
+      {
+        entry.data.coverImage && entry.data.coverAlt && (
+          <CoverImage src={entry.data.coverImage} alt={entry.data.coverAlt} bare />
+        )
+      }
+      <Content />
+
+      {
+        spotlightLinks.length > 0 && (
+          <section aria-labelledby="spotlight-heading">
+            <h2 id="spotlight-heading">Common pest issues in this area</h2>
+            <ul>
+              {spotlightLinks.map((l) => (
+                <li>
+                  <a href={`/pests/${l.slug}/`}>{l.title}</a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      <p>
+        Related: <a href="/pests/">pest guides</a> · <a href="/services/">services</a> ·{' '}
+        <a href="/contact/#quote">get a quote</a>.
+      </p>
+      <CtaStrip />
+    </div>
+  </article>
+</BaseLayout>

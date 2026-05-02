@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CoverImage from '../../components/CoverImage.astro';
+import CtaStrip from '../../components/CtaStrip.astro';
+import { breadcrumbsJsonLd } from '../../lib/seo';
+import { siteUrl } from '../../site';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const services = await getCollection('services');
+  return services.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry }
+  }));
+}
+
+const origin = Astro.site?.origin ?? siteUrl.replace(/\/$/, '');
+const { entry } = Astro.props;
+
+const crumbs = breadcrumbsJsonLd(origin, [
+  { name: 'Home', path: '/' },
+  { name: 'Services', path: '/services/' },
+  { name: entry.data.title, path: `/services/${entry.id}/` }
+]);
+
+const jsonLdList = [
+  crumbs,
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: entry.data.title,
+    description: entry.data.description,
+    provider: { '@type': 'Organization', name: 'Kenya Pest Control', url: origin },
+    areaServed: 'Kenya'
+  }
+];
+
+const { Content } = await render(entry);
+const heading = entry.data.h1 ?? entry.data.title;
+---
+
+<BaseLayout
+  title={`${entry.data.title} | Kenya Pest Control`}
+  description={entry.data.description}
+  path={`/services/${entry.id}/`}
+  jsonLd={jsonLdList}
+  ogImage={entry.data.coverImage}
+>
+  <article class="section">
+    <div class="container prose">
+      <Breadcrumbs
+        items={[
+          { name: 'Home', path: '/' },
+          { name: 'Services', path: '/services/' },
+          { name: entry.data.title, path: `/services/${entry.id}/` }
+        ]}
+      />
+      <h1>{heading}</h1>
+      {entry.data.dek && <p class="dek">{entry.data.dek}</p>}
+      {
+        entry.data.coverImage && entry.data.coverAlt && (
+          <CoverImage src={entry.data.coverImage} alt={entry.data.coverAlt} bare />
+        )
+      }
+      <Content />
+      <p class="meta-muted article-related">
+        <a href="/pests/">Pest guides</a> · <a href="/locations/">Areas</a> ·{' '}
+        <a href="/contact/">Contact</a>
+      </p>
+      <CtaStrip />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-related {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+</style>

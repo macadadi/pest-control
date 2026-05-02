@@ -1,0 +1,32 @@
+---
+interface Item {
+  name: string;
+  path: string;
+}
+
+interface Props {
+  items: Item[];
+}
+
+const { items: rawItems } = Astro.props;
+/** Pages often pass `{ name: 'Home', path: '/' }` as the first crumb; we already link Home below. */
+const skipDupHome =
+  rawItems.length > 0 && rawItems[0].name === 'Home' && rawItems[0].path === '/';
+const items = skipDupHome ? rawItems.slice(1) : rawItems;
+---
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <a href="/">Home</a>
+  {
+    items.map((item, i) => (
+      <span class="breadcrumb-sep" aria-hidden="true" />
+      <>
+        {i < items.length - 1 ? (
+          <a href={item.path}>{item.name}</a>
+        ) : (
+          <span>{item.name}</span>
+        )}
+      </>
+    ))
+  }
+</nav>

@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CtaStrip from '../../components/CtaStrip.astro';
+import { breadcrumbsJsonLd } from '../../lib/seo';
+import { siteUrl } from '../../site';
+import { getCollection } from 'astro:content';
+
+const origin = Astro.site?.origin ?? siteUrl.replace(/\/$/, '');
+const all = await getCollection('cities');
+const cities = all.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
+
+const crumbs = breadcrumbsJsonLd(origin, [
+  { name: 'Home', path: '/' },
+  { name: 'Locations', path: '/locations/' }
+]);
+
+const teaser = (s: string, n: number) =>
+  s.length <= n ? s : s.slice(0, n).trimEnd().replace(/\s+\S*$/, '') + '…';
+---
+
+<BaseLayout
+  title="Pest control locations Kenya | Nairobi, Mombasa, Kisumu, Nakuru & nationwide | Kenya Pest Control"
+  description="Nationwide pest control with strong coverage in Nairobi, Mombasa, Kisumu, and Nakuru, plus scheduled routes to Eldoret, Machakos, Kiambu, Embu, Nyeri, Meru, and other counties. Local notes on climate, common pests, and how we mobilise crews across Kenya."
+  path="/locations/"
+  jsonLd={[crumbs]}
+>
+  <section class="section">
+    <div class="container">
+      <Breadcrumbs
+        items={[{ name: 'Home', path: '/' }, { name: 'Locations', path: '/locations/' }]}
+      />
+      <h1>Service areas</h1>
+      <p class="dek">
+        No two counties behave the same: coastal humidity and salt air, lakeside fly and mosquito surges, and highland
+        temperature swings all change which pests dominate and how treatments hold on your building. The guides below
+        distil what we plan for most often in four major hubs; every job is still scoped from your inspection, access
+        rules, and preparation window, with routes booked nationwide when timelines align.
+      </p>
+      <div class="cards">
+        {
+          cities.map((c) => (
+            <article class:list={['card', c.data.coverImage && 'card--media']}>
+              {c.data.coverImage && c.data.coverAlt && (
+                <div class="card-thumb">
+                  <a href={`/locations/${c.id}/`}>
+                    <img
+                      src={c.data.coverImage}
+                      alt={c.data.coverAlt}
+                      width="400"
+                      height="250"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                </div>
+              )}
+              <div class="card-body">
+                <h3>{c.data.title}</h3>
+                <p class="meta-muted">{teaser(c.data.description, 128)}</p>
+                <a class="card-link" href={`/locations/${c.id}/`}>Area overview</a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+      <p>
+        If your site is elsewhere (Mount Kenya towns, the eastern corridor, Rift highlands, western counties, northern
+        routes, or smaller hubs), send your location, property type, and when crews can get in. We schedule pest control and
+        fumigation mobilisations across Kenya once access, security, and preparation steps match your operations calendar.
+      </p>
+      <CtaStrip />
+    </div>
+  </section>
+</BaseLayout>

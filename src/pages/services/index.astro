@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CtaStrip from '../../components/CtaStrip.astro';
+import { breadcrumbsJsonLd } from '../../lib/seo';
+import { siteUrl } from '../../site';
+import { getCollection } from 'astro:content';
+
+const origin = Astro.site?.origin ?? siteUrl.replace(/\/$/, '');
+const all = await getCollection('services');
+const services = all.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
+
+const crumbs = breadcrumbsJsonLd(origin, [
+  { name: 'Home', path: '/' },
+  { name: 'Services', path: '/services/' }
+]);
+
+const teaser = (s: string, n: number) =>
+  s.length <= n ? s : s.slice(0, n).trimEnd().replace(/\s+\S*$/, '') + '…';
+---
+
+<BaseLayout
+  title="Pest control services Kenya | Residential, commercial & industrial | Kenya Pest Control"
+  description="Fumigation services Kenya, inspections, residential and commercial pest control, mosquito programmes, AMC contracts, IPM training, and export fumigation, scoped for Kenyan sites and compliance needs."
+  path="/services/"
+  jsonLd={[crumbs]}
+>
+  <section class="section">
+    <div class="container">
+      <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'Services', path: '/services/' }]} />
+      <h1>Pest control and fumigation services</h1>
+      <p class="dek">
+        Choose the programme that matches your property or operation. We scope each job honestly, whether you need
+        monitoring and baiting, structural or commodity fumigation, or training and documentation for auditors and
+        buyers.
+      </p>
+      <div class="cards">
+        {
+          services.map((s) => (
+            <article class:list={['card', s.data.coverImage && 'card--media']}>
+              {s.data.coverImage && s.data.coverAlt && (
+                <div class="card-thumb">
+                  <a href={`/services/${s.id}/`}>
+                    <img
+                      src={s.data.coverImage}
+                      alt={s.data.coverAlt}
+                      width="400"
+                      height="250"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                </div>
+              )}
+              <div class="card-body">
+                <h3>{s.data.title}</h3>
+                <p class="meta-muted">{teaser(s.data.description, 130)}</p>
+                <a class="card-link" href={`/services/${s.id}/`}
+                  >Read more</a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+      <CtaStrip />
+    </div>
+  </section>
+</BaseLayout>

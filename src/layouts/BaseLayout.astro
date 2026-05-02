@@ -1,0 +1,107 @@
+---
+import '@fontsource/dm-sans/400.css';
+import '@fontsource/dm-sans/600.css';
+import '@fontsource/dm-sans/700.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { business, siteName, siteTagline, siteUrl } from '../site';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  /** Extra structured data blobs (FAQPage, BreadcrumbList, etc.) */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  /** Open Graph image path relative to origin (optional) */
+  ogImage?: string;
+  /** e.g. "noindex, nofollow" for error pages */
+  robots?: string;
+}
+
+const { title, description, path, jsonLd = [], ogImage, robots } = Astro.props;
+
+const origin = Astro.site?.origin ?? siteUrl.replace(/\/$/, '');
+const pathname = path.startsWith('/') ? path : `/${path}`;
+const canonicalURL = `${origin}${pathname}`;
+
+const defaultOg = `${origin}/og-default.svg`;
+
+const pestsOrg: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': ['LocalBusiness', 'PestControlService'],
+  '@id': `${origin}/#organization`,
+  name: business.name,
+  url: `${origin}/`,
+  description: siteTagline,
+  telephone: business.phones.map((p) => p.tel),
+  email: business.email,
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      opens: '08:00',
+      closes: '18:00'
+    }
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: business.address.street,
+    addressRegion: business.address.region,
+    addressCountry: 'KE'
+  },
+  areaServed: [
+    { '@type': 'Country', name: 'Kenya' },
+    { '@type': 'City', name: 'Nairobi' },
+    { '@type': 'City', name: 'Mombasa' },
+    { '@type': 'City', name: 'Kisumu' },
+    { '@type': 'City', name: 'Nakuru' }
+  ],
+  priceRange: '$$'
+};
+
+const pageSchemas = Array.isArray(jsonLd)
+  ? jsonLd
+  : jsonLd && Object.keys(jsonLd).length
+    ? [jsonLd as Record<string, unknown>]
+    : [];
+
+const schemas: Record<string, unknown>[] =
+  pathname === '/' ? [pestsOrg, ...pageSchemas] : pageSchemas;
+---
+
+<!doctype html>
+<html lang="en-KE">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {robots && <meta name="robots" content={robots} />}
+    <link rel="canonical" href={canonicalURL} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:locale" content="en_KE" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:image" content={(ogImage && `${origin}${ogImage}`) ?? defaultOg} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    {schemas.length > 0 && <JsonLd data={schemas} />}
+  </head>
+  <body>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

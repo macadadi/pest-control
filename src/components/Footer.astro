@@ -1,0 +1,50 @@
+---
+import { business, siteName } from '../site';
+import PhotoCredit from './PhotoCredit.astro';
+
+const wa = `https://wa.me/${business.whatsappDigits}`;
+---
+
+<footer class="site-footer">
+  <div class="container grid">
+    <div>
+      <h3>{siteName}</h3>
+      <p>
+        We are a cost effective and reliable nationwide pest control provider in Kenya, supporting homes, hotels, retail, logistics, farming, and
+        food manufacturing from a Nairobi operations base. Our programmes cover termites, bed bugs, rodents,
+        cockroaches, commodity and structural fumigation, mosquitoes, and general integrated pest management, with
+        documentation, re-entry guidance, and products aligned to Kenyan regulatory expectations where required.
+      </p>
+    </div>
+    <div>
+      <h3>Contact</h3>
+      <p>
+        Phone:{' '}
+        {business.phones.map((p, i) => (
+          <>
+            {i > 0 ? ' · ' : ''}
+            <a href={`tel:${p.tel}`}>{p.display}</a>
+          </>
+        ))}
+        <br />
+        Email:{' '}
+        <a href={`mailto:${business.email}`}>{business.email}</a><br />
+        WhatsApp:{' '}
+        <a href={wa}>Message us</a>
+      </p>
+    </div>
+    <div>
+      <h3>Areas</h3>
+      <p>
+        Service routes include <a href="/locations/nairobi">Nairobi</a>,{' '}
+        <a href="/locations/mombasa">Mombasa</a>,{' '}
+        <a href="/locations/kisumu">Kisumu</a>, and{' '}
+        <a href="/locations/nakuru">Nakuru</a>, with mobilisations to Eldoret, Machakos, Kiambu, Embu, Nyeri, Meru,
+        and other counties when you share location and access windows, book nationwide programmes the same way.
+      </p>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <PhotoCredit />
+  </div>
+</footer>

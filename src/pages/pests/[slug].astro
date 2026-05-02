@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CoverImage from '../../components/CoverImage.astro';
+import CtaStrip from '../../components/CtaStrip.astro';
+import { breadcrumbsJsonLd } from '../../lib/seo';
+import { siteUrl } from '../../site';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const pests = await getCollection('pests');
+  return pests.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry }
+  }));
+}
+
+const origin = Astro.site?.origin ?? siteUrl.replace(/\/$/, '');
+const { entry } = Astro.props;
+
+const crumbs = breadcrumbsJsonLd(origin, [
+  { name: 'Home', path: '/' },
+  { name: 'Pests', path: '/pests/' },
+  { name: entry.data.title, path: `/pests/${entry.id}/` }
+]);
+
+const jsonLdList = [
+  crumbs,
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: entry.data.title,
+    description: entry.data.description,
+    url: `${origin}/pests/${entry.id}/`
+  }
+];
+
+const { Content } = await render(entry);
+const heading =
+  entry.data.h1 ??
+  `${entry.data.title} in Kenya: identification, treatment & prevention`;
+---
+
+<BaseLayout
+  title={`${entry.data.title} Control Kenya | Kenya Pest Control`}
+  description={entry.data.description}
+  path={`/pests/${entry.id}/`}
+  jsonLd={jsonLdList}
+  ogImage={entry.data.coverImage}
+>
+  <article class="section">
+    <div class="container prose">
+      <Breadcrumbs
+        items={[
+          { name: 'Home', path: '/' },
+          { name: 'Pests', path: '/pests/' },
+          { name: entry.data.title, path: `/pests/${entry.id}/` }
+        ]}
+      />
+      <h1>{heading}</h1>
+      {
+        entry.data.dek && (
+          <p class="dek">{entry.data.dek}</p>
+        )
+      }
+      {
+        entry.data.coverImage && entry.data.coverAlt && (
+          <CoverImage src={entry.data.coverImage} alt={entry.data.coverAlt} bare />
+        )
+      }
+      <Content />
+      <nav class="meta-muted article-related" aria-label="Related pages">
+        <a href="/services/fumigation/">Fumigation</a>
+        {' · '}
+        <a href="/locations/nairobi/">Nairobi</a>
+        {' · '}
+        <a href="/faq/">FAQ</a>
+        {' · '}
+        <a href="/services/residential-commercial/">Homes &amp; businesses</a>
+        {' · '}
+        <a href="/contact/">Book an inspection</a>
+      </nav>
+      <CtaStrip />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-related {
+    margin: 2rem 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+</style>

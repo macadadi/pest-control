@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CoverImage from '../../components/CoverImage.astro';
+import CtaStrip from '../../components/CtaStrip.astro';
+import { breadcrumbsJsonLd } from '../../lib/seo';
+import { siteUrl } from '../../site';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('blog');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry }
+  }));
+}
+
+const origin = Astro.site?.origin ?? siteUrl.replace(/\/$/, '');
+const { entry } = Astro.props;
+
+const crumbs = breadcrumbsJsonLd(origin, [
+  { name: 'Home', path: '/' },
+  { name: 'Guides', path: '/blog/' },
+  { name: entry.data.title, path: `/blog/${entry.id}/` }
+]);
+
+const published = entry.data.date.toISOString().slice(0, 10);
+
+const jsonLdList = [
+  crumbs,
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: entry.data.title,
+    description: entry.data.description,
+    datePublished: published,
+    author: {
+      '@type': 'Organization',
+      name: 'Kenya Pest Control'
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Kenya Pest Control',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${origin}/favicon.svg`
+      }
+    }
+  }
+];
+
+const { Content } = await render(entry);
+---
+
+<BaseLayout
+  title={`${entry.data.title} | Kenya Pest Control Blog`}
+  description={entry.data.description}
+  path={`/blog/${entry.id}/`}
+  jsonLd={jsonLdList}
+  ogImage={entry.data.coverImage}
+>
+  <article class="section">
+    <div class="container prose">
+      <Breadcrumbs
+        items={[
+          { name: 'Home', path: '/' },
+          { name: 'Guides', path: '/blog/' },
+          { name: entry.data.title, path: `/blog/${entry.id}/` }
+        ]}
+      />
+      <header>
+        <p class="meta-muted">
+          Published {published}
+          {entry.data.author && (
+            <>
+              {' '}
+              · {entry.data.author}
+            </>
+          )}
+        </p>
+        <h1>{entry.data.h1 ?? entry.data.title}</h1>
+        {entry.data.dek && <p class="dek">{entry.data.dek}</p>}
+      </header>
+      {
+        entry.data.coverImage && entry.data.coverAlt && (
+          <CoverImage src={entry.data.coverImage} alt={entry.data.coverAlt} bare />
+        )
+      }
+      <Content />
+      <CtaStrip />
+    </div>
+  </article>
+</BaseLayout>

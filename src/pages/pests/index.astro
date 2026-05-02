@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CtaStrip from '../../components/CtaStrip.astro';
+import { breadcrumbsJsonLd } from '../../lib/seo';
+import { siteUrl } from '../../site';
+import { getCollection } from 'astro:content';
+
+const origin = Astro.site?.origin ?? siteUrl.replace(/\/$/, '');
+const all = await getCollection('pests');
+const pests = all.sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
+
+const crumbs = breadcrumbsJsonLd(origin, [
+  { name: 'Home', path: '/' },
+  { name: 'Pests', path: '/pests/' }
+]);
+
+const teaser = (s: string, n: number) =>
+  s.length <= n ? s : s.slice(0, n).trimEnd().replace(/\s+\S*$/, '') + '…';
+---
+
+<BaseLayout
+  title="Pest identification & treatment Kenya | Kenya Pest Control"
+  description="Pest control Kenya resource library, termites, bed bugs, rodents, cockroaches, mosquitoes, and more. Kenya specific behaviour, climate notes, and practical treatment guidance."
+  path="/pests/"
+  jsonLd={[crumbs]}
+>
+  <section class="section">
+    <div class="container">
+      <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'Pests', path: '/pests/' }]} />
+      <h1>Pest library</h1>
+      <p class="dek">
+        Clear guides on the pests we treat most often in Kenya: what to look for, when to act quickly, and how
+        treatment and monitoring usually work in local buildings and seasons.
+      </p>
+      <div class="cards">
+        {
+          pests.map((p) => (
+            <article class:list={['card', p.data.coverImage && 'card--media']}>
+              {p.data.coverImage && p.data.coverAlt && (
+                <div class="card-thumb">
+                  <a href={`/pests/${p.id}/`}>
+                    <img
+                      src={p.data.coverImage}
+                      alt={p.data.coverAlt}
+                      width="400"
+                      height="250"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                </div>
+              )}
+              <div class="card-body">
+                <h3>{p.data.title}</h3>
+                <p class="meta-muted">{teaser(p.data.description, 132)}</p>
+                <a class="card-link" href={`/pests/${p.id}/`}>Read guide</a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+      <CtaStrip />
+    </div>
+  </section>
+</BaseLayout>

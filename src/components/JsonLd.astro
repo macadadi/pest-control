@@ -1,0 +1,16 @@
+---
+interface Props {
+  data: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const json = Astro.props.data;
+const blocks = Array.isArray(json) ? json : [json];
+---
+
+<>
+  {
+    blocks.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))
+  }
+</>

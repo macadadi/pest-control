@@ -1,0 +1,14 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  /** When true, skips wrapper margin (parent handles layout). */
+  bare?: boolean;
+}
+
+const { src, alt, bare } = Astro.props;
+---
+
+<figure class:list={['content-cover', bare && 'content-cover--bare']}>
+  <img src={src} alt={alt} width="1200" height="630" loading={bare ? 'eager' : 'lazy'} decoding="async" />
+</figure>

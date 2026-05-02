@@ -1,0 +1,5 @@
+# Replace example.com with your live domain so it matches astro.config site + PUBLIC_SITE_URL
+User-agent: *
+Allow: /
+
+Sitemap: https://example.com/sitemap-index.xml

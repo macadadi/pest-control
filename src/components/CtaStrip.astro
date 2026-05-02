@@ -1,0 +1,25 @@
+---
+import { business } from '../site';
+
+const wa = `https://wa.me/${business.whatsappDigits}?text=${encodeURIComponent(
+  'Hello, I would like a pest control quote in Kenya. Property type and location: '
+)}`;
+---
+
+<div class="cta-strip">
+  <h2 id="cta-heading">Get a quote or book an inspection</h2>
+  <p>
+    Share photos of affected areas by WhatsApp for a faster estimate. Emergency call-outs are
+    scheduled subject to crew availability across Kenya.
+  </p>
+  <div class="actions" role="group" aria-labelledby="cta-heading">
+    <a class="btn btn-primary" href="/contact/#quote">Get a quote</a>
+    <a class="btn btn-ghost" href="/contact/#inspection">Request inspection</a>
+    {business.phones.map((p) => (
+      <a class="btn btn-ghost" href={`tel:${p.tel}`}>
+        Call {p.display}
+      </a>
+    ))}
+    <a class="btn btn-ghost" href={wa}>WhatsApp</a>
+  </div>
+</div>

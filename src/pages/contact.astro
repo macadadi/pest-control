@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CtaStrip from '../components/CtaStrip.astro';
+import { breadcrumbsJsonLd } from '../lib/seo';
+import { business, siteName, siteUrl } from '../site';
+
+const origin = Astro.site?.origin ?? siteUrl.replace(/\/$/, '');
+const wa = `https://wa.me/${business.whatsappDigits}`;
+const crumbs = breadcrumbsJsonLd(origin, [
+  { name: 'Home', path: '/' },
+  { name: 'Contact', path: '/contact/' }
+]);
+
+const mapsQuery = encodeURIComponent(
+  `${business.address.street}, ${business.address.region}`
+);
+const mapsHref = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
+---
+
+<BaseLayout
+  title={`Contact ${siteName} | Quotes, inspections & bookings`}
+  description="Phone, email, WhatsApp, and office details for Kenya Pest Control, quotes, inspections, AMCs, export fumigation, and urgent pest work nationwide for homes, hospitality, warehouses, farms, and industry."
+  path="/contact/"
+  jsonLd={[crumbs]}
+>
+  <section class="section">
+    <div class="container prose">
+      <Breadcrumbs items={[{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact/' }]} />
+      <h1>Contact Kenya Pest Control</h1>
+      <p class="lead">
+        Use the channels below for written quotations, scheduled inspections, annual maintenance contracts, export
+        fumigation bookings, and urgent pest call-outs. We work across Nairobi, the coast, lakeside towns, the Rift,
+        Mount Kenya corridor, and the rest of Kenya, mobilisation depends on crew routing and your access window.
+      </p>
+      <p>
+        Match these details to your{' '}
+        <a href="https://www.google.com/business/">Google Business Profile</a>, tender documents, and purchase orders.
+        Consistent name, phone, email, and address speed up verification for procurement, facilities, and estate
+        security teams.
+      </p>
+      <h2 id="quote">Get a quote</h2>
+      <p>Email or WhatsApp with as much of the following as you can:</p>
+      <ul>
+        <li>Town or county and property type (home, hotel, warehouse, factory, school, farm, or other).</li>
+        <li>Brief description of the pest issue, how long it has been noticed, and any prior treatments.</li>
+        <li>Photos of affected areas, harbourage, or damage, wide shots and close-ups help us estimate scope and prep.</li>
+        <li>Preferred visit dates, security or induction requirements, and whether the site must be treated out of hours.</li>
+      </ul>
+      <p>We reply with next steps, likely preparation, and whether we recommend a paid inspection before committing to gas or major structural work.</p>
+      <h2 id="inspection">Request an inspection</h2>
+      <p>
+        Book an on-site inspection when you need a written assessment, phased treatment plan, or evidence pack for
+        insurers, HACCP or ISO-style audits, landlord-tenant handovers, or board reporting. Typical outputs include
+        findings, photographs, priority actions, and realistic timelines aligned to how the building is used, not a
+        generic checklist.
+      </p>
+      <ul>
+        <li>We confirm date, access route, PPE or induction rules, and who must be on site to sign work dockets.</li>
+        <li>We tell you what to clear, seal, or ventilate before we arrive so the visit is productive on day one.</li>
+      </ul>
+      <h2>Office and contact details</h2>
+      <dl>
+        <dt>Company</dt>
+        <dd>{business.name}</dd>
+        <dt>Phone</dt>
+        <dd>
+          {business.phones.map((p, i) => (
+            <>
+              {i > 0 ? ' · ' : ''}
+              <a href={`tel:${p.tel}`}>{p.display}</a>
+            </>
+          ))}
+        </dd>
+        <dt>Email</dt>
+        <dd><a href={`mailto:${business.email}`}>{business.email}</a></dd>
+        <dt>WhatsApp</dt>
+        <dd>
+          <a href={wa}>WhatsApp {business.phoneDisplay}</a>
+          {'. Same number as phone; fastest for photos and short video.'}
+        </dd>
+        <dt>{business.address.label}</dt>
+        <dd>
+          {business.address.street},{' '}
+          {business.address.region}
+          {' · '}
+          <a href={mapsHref}>Open in Google Maps</a>
+        </dd>
+        <dt>Hours</dt>
+        <dd>{business.openingHours} (Sunday closed unless pre-arranged for critical sites.)</dd>
+      </dl>
+      <CtaStrip />
+    </div>
+  </section>
+</BaseLayout>
