@@ -1,6 +1,7 @@
 ---
 import { business, siteName } from '../site';
-import PhotoCredit from './PhotoCredit.astro';
+
+const currentYear = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
@@ -11,7 +12,7 @@ import PhotoCredit from './PhotoCredit.astro';
         We are a cost effective and reliable nationwide pest control provider in Kenya, supporting homes, hotels, retail, logistics, farming, and
         food manufacturing from a Nairobi operations base. Our programmes cover termites, bed bugs, rodents,
         cockroaches, commodity and structural fumigation, mosquitoes, and general integrated pest management, with
-        documentation, re-entry guidance, and products aligned to Kenyan regulatory expectations where required.
+        clear records, re-entry guidance, and products that meet Kenyan regulatory expectations where required.
       </p>
     </div>
     <div>
@@ -48,6 +49,10 @@ import PhotoCredit from './PhotoCredit.astro';
     </div>
   </div>
   <div class="container footer-bottom">
-    <PhotoCredit />
+    <p>
+      &copy; {currentYear} {siteName}. All rights reserved.
+      {' · '}
+      <a href="/terms/">Terms and Conditions</a>
+    </p>
   </div>
 </footer>

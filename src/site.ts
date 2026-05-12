@@ -3,7 +3,7 @@
 export const siteName = 'Kenya Pest Control';
 
 export const siteTagline =
-  'Reliable pest control and fumigation services in Kenya for homes, hospitality, logistics, farming, and food manufacturing; inspection-led treatment, documented programmes, and crews who plan for local climate and pest behaviour.';
+  'Reliable pest control and fumigation services in Kenya for homes, hospitality, logistics, farming, and food manufacturing. We inspect first, keep clear records of every visit, and plan around local climate and pest behaviour.';
 
 export const siteUrl =
   typeof import.meta.env.PUBLIC_SITE_URL === 'string' && import.meta.env.PUBLIC_SITE_URL

@@ -5,9 +5,9 @@ order: 11
 h1: "Bee swarms: assessment and humane relocation"
 dek: Gentle swarms on branches differ from defensive colonies in wall voids; we photograph and route to licensed beekeepers within realistic flight range.
 coverImage: /images/covers/honeycomb.jpg
-coverAlt: Honey bee on blossom for swarm relocation rather than ad hoc spraying in Kenya
+coverAlt: Honey bee on blossom for swarm relocation instead of ad hoc spraying in Kenya
 ---
 
-Honeybee swarms on school roofs, fences, or water towers should usually be relocated for pollination value and safety. We identify whether the cluster is a manageable swarm or an established colony requiring cut-out or specialist access, then coordinate with beekeepers and county agriculture desks where response times vary.
+Honeybee swarms on school roofs, fences, or water towers should usually be relocated for pollination value and safety. We identify whether the cluster is a manageable swarm or an established colony that needs a cut out or specialist access, then coordinate with beekeepers and county agriculture desks where response times vary.
 
-Horizontal photos showing comb shape help beekeepers plan. Calling early on a weekday beats discovering the duty officer travelled upcountry midday.
+Horizontal photos showing comb shape help beekeepers plan. Calling early on a weekday beats discovering the duty officer travelled upcountry at midday.

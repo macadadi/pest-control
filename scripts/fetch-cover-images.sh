@@ -19,9 +19,6 @@ download() {
   sleep 2
 }
 
-download "sanitizing-equipment.jpg" "Retro Earth brand pest control sprayer 2024 March 9.jpeg"
-cp "$COVERS/sanitizing-equipment.jpg" "$COVERS/field-worker.jpg"
-
 download "wooden-beams.jpg" "Termite damage on a block of wood 01.jpg"
 download "honeycomb.jpg" "Apis mellifera Western honey bee.jpg"
 download "plants-close.jpg" "Camponotus ligniperda.jpg"
@@ -44,6 +41,5 @@ download "nakuru-pests.jpg" "Stomoxys calcitrans 01.jpg"
 download "cockroach-cover.jpg" "Blattella germanica (Linnaeus, 1767) German Cockroach (24516339107).jpg"
 download "amc-bait-monitoring.jpg" "Predator Free New Zealand rat trap and tunnel.jpg"
 download "flea-pet-context.jpg" "Ctenocephalides felis ZSM.jpg"
-download "ipm-training.jpg" "Retro Earth brand pest control sprayer 2024 March 9.jpeg"
 
 echo "Done → $COVERS"

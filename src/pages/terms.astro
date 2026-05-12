@@ -1,0 +1,371 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { breadcrumbsJsonLd } from '../lib/seo';
+import { business, siteName, siteUrl } from '../site';
+
+const origin = Astro.site?.origin ?? siteUrl.replace(/\/$/, '');
+const crumbs = breadcrumbsJsonLd(origin, [
+  { name: 'Home', path: '/' },
+  { name: 'Terms and Conditions', path: '/terms/' }
+]);
+
+const lastUpdated = 'May 2026';
+---
+
+<BaseLayout
+  title={`Terms and Conditions | ${siteName}`}
+  description={`Terms and Conditions governing the supply of pest control, fumigation, and related services by ${siteName} in Kenya, including limitation of liability, indemnity, warranties, and dispute resolution.`}
+  path="/terms/"
+  jsonLd={[crumbs]}
+  robots="noindex, follow"
+>
+  <section class="section">
+    <div class="container prose">
+      <Breadcrumbs
+        items={[
+          { name: 'Home', path: '/' },
+          { name: 'Terms and Conditions', path: '/terms/' }
+        ]}
+      />
+      <h1>Terms and Conditions</h1>
+      <p class="dek">
+        These Terms and Conditions (the &ldquo;Terms&rdquo;) govern the supply of pest control, fumigation, inspection,
+        monitoring, and related services (the &ldquo;Services&rdquo;) by {business.name} (&ldquo;we&rdquo;,
+        &ldquo;us&rdquo;, &ldquo;our&rdquo; or the &ldquo;Company&rdquo;) to you, the customer or end-user (the
+        &ldquo;Client&rdquo;). By requesting a quotation, booking a visit, accepting a work docket, or paying any invoice,
+        the Client confirms that they have read, understood, and agreed to be bound by these Terms.
+      </p>
+
+      <p><strong>Last updated:</strong> {lastUpdated}</p>
+
+      <h2 id="acceptance">1. Acceptance and scope</h2>
+      <p>
+        These Terms apply to every quotation, proposal, order, work docket, service report, invoice, and contract
+        between the Company and the Client, and prevail over any conflicting terms put forward by the Client (including
+        any purchase order or supplier portal terms) unless expressly accepted in writing by an authorised officer of
+        the Company. The Client&rsquo;s use of the Company&rsquo;s website, telephone lines, email, WhatsApp, or any
+        other channel to request information or book Services also constitutes acceptance of these Terms.
+      </p>
+
+      <h2 id="services">2. Nature of the Services</h2>
+      <p>
+        Pest control and fumigation are biological control activities. Pest populations are affected by sanitation,
+        construction, weather, neighbouring premises, harbourage, food sources, deliveries, and many other factors
+        outside the Company&rsquo;s reasonable control. The Services are therefore supplied on a <strong>reasonable
+        endeavours</strong> basis and the Company makes no guarantee, representation, or warranty (express, implied,
+        statutory, or otherwise) that any pest will be eliminated, eradicated, prevented, or kept away for any
+        particular period of time, save where a specific written warranty is signed by an authorised officer of the
+        Company and only on the precise terms of that written warranty.
+      </p>
+      <p>
+        Recommendations made by the Company (oral or written) are advisory only. The Client remains solely responsible
+        for the management, sanitation, structural integrity, and use of their premises and goods.
+      </p>
+
+      <h2 id="client-responsibilities">3. Client responsibilities and preparation</h2>
+      <p>
+        The Client warrants and undertakes that they will, at their own cost and risk:
+      </p>
+      <ul>
+        <li>
+          Provide accurate, complete, and up-to-date information about the property, pest history, prior treatments
+          (including any chemicals applied), occupants, allergies, sensitivities, pregnant occupants, infants, the
+          elderly, pets, fish, birds, livestock, plants, and any medical condition that could be affected by treatment.
+        </li>
+        <li>
+          Carry out all preparation, clearance, covering, sealing, evacuation, ventilation, re-entry, washing-down, and
+          aftercare instructions issued by the Company in full and on time. Failure to follow preparation or aftercare
+          instructions voids any warranty and discharges the Company from any liability arising in connection with
+          the Services.
+        </li>
+        <li>
+          Provide safe, lawful, and unobstructed access to all areas requiring treatment, including utilities, water,
+          electricity, and adequate lighting; and ensure that the site complies with applicable occupational health and
+          safety, fire, and building regulations.
+        </li>
+        <li>
+          Relocate, isolate, or protect at the Client&rsquo;s own risk any pets, fish, reptiles, birds, livestock,
+          beehives, indoor plants, foodstuffs, medication, cosmetics, fabrics, artwork, electronics, sensitive
+          equipment, biometric records, or any other items that may be sensitive to insecticides, rodenticides,
+          fumigants, dust, moisture, odour, or vibration.
+        </li>
+        <li>
+          Notify all occupants, neighbours, employees, contractors, tenants, guests, and visitors who may be affected
+          by the Services, post any signage we provide, and prevent entry to treated areas during re-entry intervals.
+        </li>
+        <li>
+          Obtain, at the Client&rsquo;s own cost, every consent, licence, permit, body-corporate or landlord approval,
+          or regulatory authorisation required for the Services to be carried out lawfully at the premises.
+        </li>
+      </ul>
+
+      <h2 id="health-safety">4. Health, safety, and re-entry</h2>
+      <p>
+        Pest control products, baits, dusts, gases, fogs, and fumigants can cause irritation, allergic reaction,
+        aggravation of asthma or other respiratory conditions, dermatological reactions, or, in the case of misuse or
+        non-compliance with re-entry instructions, more serious harm. The Client acknowledges this and accepts that
+        strict compliance with the re-entry, ventilation, washing-down, and re-occupation instructions issued by the
+        Company is a condition of the Services.
+      </p>
+      <p>
+        To the fullest extent permitted by law, the Company shall not be liable for any illness, allergic reaction,
+        respiratory distress, skin reaction, miscarriage, injury, death, or other adverse health outcome of any
+        occupant, employee, visitor, contractor, neighbour, pet, plant, or animal where the Client (or anyone under
+        the Client&rsquo;s control) has failed to comply with the preparation, evacuation, ventilation, or re-entry
+        instructions, has failed to disclose a relevant medical or biological condition, or has otherwise contributed
+        to the loss.
+      </p>
+
+      <h2 id="warranties">5. No implied warranties</h2>
+      <p>
+        Save as expressly set out in a written warranty signed by an authorised officer of the Company, all warranties,
+        conditions, terms, and representations (whether express or implied by statute, common law, custom, course of
+        dealing, or otherwise), including any implied warranty of merchantable quality, fitness for a particular
+        purpose, satisfactory quality, durability, freedom from defect, or compliance with any sample or description,
+        are excluded to the fullest extent permitted by law.
+      </p>
+      <p>
+        Where any warranty is given, it is conditional on (a) full and timely payment of all invoices; (b) the Client
+        following all preparation, re-entry, sanitation, and follow-up recommendations issued by the Company; (c) the
+        absence of new infestation introduced through goods, persons, vehicles, deliveries, or structural defects
+        after our visit; and (d) the Client booking and paying for any scheduled follow-up or monitoring visits.
+      </p>
+
+      <h2 id="exclusions">6. Property, goods, and consequential loss</h2>
+      <p>
+        Treatment of timber, masonry, drains, voids, lofts, roofs, machinery, vehicles, vessels, containers,
+        commodities, and stored goods may, despite the exercise of reasonable care, result in cosmetic marks,
+        staining, residue, odour, displacement of items, fastener marks, dust disturbance, or the discovery of
+        pre-existing structural or pest damage. The Company shall not be liable for:
+      </p>
+      <ul>
+        <li>
+          Any defect, decay, infestation, or damage that existed before our attendance or that is identified during
+          our works (including damage that is exposed by the works themselves);
+        </li>
+        <li>
+          Damage to or loss of stored goods, foodstuffs, beverages, pharmaceuticals, cosmetics, fabrics, artwork,
+          electronics, biometric data, IT equipment, vehicles, vessels, or other items that were not removed, sealed,
+          or protected by the Client in accordance with our preparation instructions;
+        </li>
+        <li>
+          Damage to plants, lawns, ornamentals, beehives, koi, aquariums, fish, livestock, or pets that were not
+          relocated or isolated as instructed;
+        </li>
+        <li>
+          Demurrage, detention, container hire, vessel charter, port storage, delivery delay, missed sailing or flight,
+          spoilage of cargo, loss of phytosanitary certification, loss of bargain, or any other contractual loss
+          flowing from a fumigation, gassing, or commodity treatment, save where such loss was caused by the
+          Company&rsquo;s gross negligence or wilful misconduct and is not otherwise excluded by these Terms;
+        </li>
+        <li>
+          Any indirect, consequential, special, incidental, punitive, or exemplary loss; loss of profit, revenue,
+          business, contracts, goodwill, reputation, or anticipated savings; loss of opportunity; loss of data; or
+          loss arising from business interruption, however arising and whether in contract, tort (including
+          negligence), breach of statutory duty, indemnity, or otherwise.
+        </li>
+      </ul>
+
+      <h2 id="liability-cap">7. Limitation of liability</h2>
+      <p>
+        Without prejudice to any other clause of these Terms and to the fullest extent permitted by law, the
+        aggregate liability of the Company, its directors, officers, employees, agents, contractors,
+        sub-contractors, technicians, parent undertakings, holding companies, subsidiaries, affiliates,
+        and related entities (collectively, the &ldquo;Company Parties&rdquo;) to the Client and any person claiming
+        through or under the Client, arising out of or in connection with the Services, these Terms, any quotation,
+        any work docket, any inspection report, or the use of any product or recommendation supplied by us, whether
+        in contract, tort (including negligence), breach of statutory duty, misrepresentation, indemnity, restitution,
+        or otherwise, shall in no event exceed the lesser of:
+      </p>
+      <ul>
+        <li>the total fees actually paid by the Client to the Company for the specific Service giving rise to the claim during the three (3) months immediately preceding the event giving rise to the claim; and</li>
+        <li>Kenya Shillings One Hundred Thousand (KES 100,000).</li>
+      </ul>
+      <p>
+        The Client acknowledges that the prices charged for the Services reflect this allocation of risk, that the
+        Client is in the best position to insure against loss to its own property, business interruption, and
+        consequential loss, and that, were the Company required to accept a higher exposure, the Services would not
+        be commercially viable at the prices quoted.
+      </p>
+
+      <h2 id="non-excludable">8. Liability that cannot be excluded</h2>
+      <p>
+        Nothing in these Terms shall exclude or limit any liability of the Company that cannot lawfully be excluded
+        or limited under the laws of Kenya, including (where applicable) liability for death or personal injury
+        caused by the Company&rsquo;s proven gross negligence, liability for fraud or fraudulent misrepresentation,
+        or any non-excludable rights granted to consumers under the Consumer Protection Act, 2012. Where a court
+        finds any limitation or exclusion in these Terms unenforceable, it shall be construed as limited to the
+        maximum extent permitted by law, and the remaining provisions shall continue in full force and effect.
+      </p>
+
+      <h2 id="indemnity">9. Indemnity by the Client</h2>
+      <p>
+        The Client shall defend, indemnify, and hold harmless the Company Parties from and against any and all
+        claims, demands, suits, actions, proceedings, judgments, fines, penalties, losses, damages, liabilities,
+        costs, and expenses (including legal fees on an advocate-and-client basis, expert fees, and disbursements)
+        brought by any third party (including any occupant, employee, tenant, guest, visitor, contractor,
+        neighbour, regulator, insurer, freight forwarder, consignee, or buyer) and arising out of or in connection
+        with:
+      </p>
+      <ul>
+        <li>any breach by the Client of these Terms, any preparation instruction, any re-entry instruction, or any aftercare instruction;</li>
+        <li>any inaccurate, incomplete, or misleading information supplied by or on behalf of the Client;</li>
+        <li>any pre-existing defect, infestation, contamination, or non-compliance at the premises;</li>
+        <li>any act or omission of the Client or any person under the Client&rsquo;s control; and</li>
+        <li>any use, distribution, sale, export, or re-treatment of goods, commodities, or property after our attendance.</li>
+      </ul>
+
+      <h2 id="third-parties">10. Third party beneficiaries</h2>
+      <p>
+        Each exclusion, limitation, indemnity, and protection granted to the Company under these Terms is granted for
+        the benefit of, and may be relied upon and enforced directly by, every other Company Party (including every
+        director, officer, employee, agent, contractor, sub-contractor, technician, parent undertaking, holding
+        company, subsidiary, affiliate, and related entity of the Company), notwithstanding that they are not parties
+        to any particular contract for Services. The Client undertakes not to bring any claim against any such
+        Company Party that it could not bring against the Company itself.
+      </p>
+
+      <h2 id="payment">11. Quotations, fees, and payment</h2>
+      <p>
+        Quotations are valid for thirty (30) days unless stated otherwise and are based on information supplied by the
+        Client. If the actual site, scope, or condition differs from that information, the Company reserves the right
+        to revise the price before or after the visit. Unless otherwise agreed in writing, fees are payable in full on
+        delivery of the invoice. Late payments accrue interest at the rate of two per cent (2%) per month or part
+        month, or the maximum rate permitted by law, whichever is lower. The Company may suspend Services, withhold
+        certificates and reports, and recover collection costs (including legal fees) in respect of any overdue
+        amount. Title in any goods, baits, monitors, traps, or documentation supplied remains with the Company until
+        all amounts due have been paid in full.
+      </p>
+
+      <h2 id="cancellation">12. Cancellation, postponement, and missed visits</h2>
+      <p>
+        Bookings cancelled or postponed by the Client with less than twenty-four (24) hours&rsquo; notice, missed
+        visits, and visits aborted on arrival due to no access, unsafe conditions, or inadequate preparation may be
+        charged at the full visit fee. Where Services are paid for as part of a programme, contract, or annual
+        maintenance arrangement and the Client terminates early, fees already invoiced or attributable to the period
+        up to termination remain payable.
+      </p>
+
+      <h2 id="force-majeure">13. Force majeure</h2>
+      <p>
+        The Company shall not be liable for any delay, failure, or inability to perform any obligation under these
+        Terms caused (directly or indirectly) by any event beyond its reasonable control, including acts of God,
+        weather, flood, fire, earthquake, epidemic, pandemic, public health measure, war, civil disturbance, riot,
+        terrorism, strike, lockout or other industrial dispute, supply-chain disruption, shortage or recall of
+        chemicals or equipment, regulatory action (including action of the Pest Control Products Board or any other
+        authority), restrictions on movement, network or utility failure, or any other event of force majeure.
+      </p>
+
+      <h2 id="regulatory">14. Regulatory and use of products</h2>
+      <p>
+        The Company uses products that are, to its reasonable knowledge, registered with the Pest Control Products
+        Board (PCPB) of Kenya where required. Product registration status, label directions, and label re-entry
+        intervals can change from time to time and are the responsibility of the relevant regulator. The Client is
+        responsible for confirming that the use of any product within their premises is compatible with their own
+        policies (including HACCP, ISO, BRC, halal, organic, or export-market requirements), and the Company
+        accepts no liability for incompatibility with such standards where the Client has not specifically requested
+        such compatibility in writing prior to the visit.
+      </p>
+
+      <h2 id="reports">15. Reports, certificates, and recommendations</h2>
+      <p>
+        Inspection reports, monitoring logs, fumigation certificates, and recommendations are provided for the
+        Client&rsquo;s sole and internal use and reflect the conditions observed at the time of the visit.
+        Reports must not be edited, partially extracted, or distributed in any way that is misleading. The Company
+        accepts no responsibility to any third party (including any subsequent owner, occupier, insurer, financier,
+        buyer, or consignee) who acts in reliance on a report or certificate without the Company&rsquo;s prior
+        written consent.
+      </p>
+
+      <h2 id="data">16. Data and confidentiality</h2>
+      <p>
+        Each party shall keep confidential any non-public information disclosed by the other in connection with the
+        Services. The Company may use anonymised data for benchmarking, training, and service improvement. Personal
+        data is processed in accordance with the Data Protection Act, 2019 and our internal data handling practices,
+        and may be retained as required for audit, regulatory, and tax purposes.
+      </p>
+
+      <h2 id="time-bar">17. Time bar for claims</h2>
+      <p>
+        Any claim by the Client against the Company arising out of or in connection with the Services must be
+        notified to the Company in writing, with full supporting particulars, within thirty (30) days of the Client
+        becoming aware (or, acting reasonably, ought to have become aware) of the matter giving rise to the claim,
+        and any such claim must be commenced in court or arbitration within twelve (12) months of the date of the
+        visit to which it relates, failing which the claim shall be irrevocably barred.
+      </p>
+
+      <h2 id="governing-law">18. Governing law and jurisdiction</h2>
+      <p>
+        These Terms and any non-contractual obligations arising in connection with them are governed by the laws of
+        the Republic of Kenya. Any dispute shall first be referred to good-faith negotiation between senior
+        representatives of the parties. If not resolved within thirty (30) days, the dispute shall, at the
+        Company&rsquo;s sole option, be referred to a single arbitrator in Nairobi under the Arbitration Act, 1995
+        (Kenya), with the English language as the language of arbitration, or to the exclusive jurisdiction of the
+        courts of Kenya sitting at Nairobi.
+      </p>
+
+      <h2 id="general">19. General</h2>
+      <ul>
+        <li>
+          <strong>Severability.</strong> If any provision of these Terms is held to be invalid or unenforceable, the
+          remaining provisions shall continue in full force and effect, and the invalid or unenforceable provision
+          shall be modified to the minimum extent necessary to make it valid and enforceable while preserving the
+          parties&rsquo; original intent.
+        </li>
+        <li>
+          <strong>No waiver.</strong> No failure or delay by the Company in exercising any right shall operate as a
+          waiver of that right.
+        </li>
+        <li>
+          <strong>Assignment.</strong> The Client may not assign, sub-license, or transfer its rights under these
+          Terms without our prior written consent. The Company may assign or sub-contract its rights and obligations
+          to any Company Party or to any successor in business without consent.
+        </li>
+        <li>
+          <strong>Variation.</strong> The Company may amend these Terms from time to time by publishing an updated
+          version on this page. The version in force on the date of the relevant visit, quotation, or work docket
+          shall apply to that engagement.
+        </li>
+        <li>
+          <strong>Entire agreement.</strong> These Terms, together with the relevant quotation and work docket, form
+          the entire agreement between the parties in relation to the Services and supersede any prior understanding,
+          representation, or arrangement.
+        </li>
+        <li>
+          <strong>Notices.</strong> Notices must be in writing and sent to{' '}
+          <a href={`mailto:${business.email}`}>{business.email}</a> or to the registered office at{' '}
+          {business.address.street}, {business.address.region}.
+        </li>
+      </ul>
+
+      <h2 id="contact">20. Questions about these Terms</h2>
+      <p>
+        For any question about these Terms, the scope of a particular engagement, or to request a written warranty for
+        a specific programme, please write to{' '}
+        <a href={`mailto:${business.email}`}>{business.email}</a> or call{' '}
+        {business.phones.map((p, i) => (
+          <>
+            {i > 0 ? ' · ' : ''}
+            <a href={`tel:${p.tel}`}>{p.display}</a>
+          </>
+        ))}.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  h2 {
+    margin-top: 2rem;
+  }
+
+  ul {
+    margin: 0.5rem 0 1rem;
+    padding-left: 1.25rem;
+  }
+
+  ul li {
+    margin-bottom: 0.5rem;
+  }
+</style>
