@@ -10,7 +10,7 @@ export const siteUrl =
     ? import.meta.env.PUBLIC_SITE_URL.replace(/\/$/, '')
     : typeof import.meta.env.SITE === 'string' && import.meta.env.SITE
       ? String(import.meta.env.SITE).replace(/\/$/, '')
-      : 'https://example.com';
+      : 'https://www.kenyapestcontrol.co.ke';
 
 /** Display, E.164 `tel:`, and digits for `wa.me` (no +), one entry per line. */
 export const businessPhones = [
